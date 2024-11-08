@@ -1,0 +1,42 @@
+{
+    "name": "thinkneverland/evolve-ui",
+    "description": "User interface for CRUD operations, utilizing Livewire and DaisyUI.",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Quincy Adams",
+            "email": "iam@quincy.codes",
+            "homepage": "https://quincy.codes"
+        }
+    ],
+    "homepage": "https://github.com/thinkneverland/evolve-ui",
+    "keywords": ["Laravel", "EvolveUi"],
+    "require": {
+        "illuminate/support": "~9"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thinkneverland\\EvolveUi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Thinkneverland\\EvolveUi\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Thinkneverland\\EvolveUi\\EvolveUiServiceProvider"
+            ],
+            "aliases": {
+                "EvolveUi": "Thinkneverland\\EvolveUi\\Facades\\EvolveUi"
+            }
+        }
+    }
+}
