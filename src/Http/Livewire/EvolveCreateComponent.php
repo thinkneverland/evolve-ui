@@ -1,9 +1,10 @@
 <?php
 
-namespace Evolve\UI\Http\Livewire;
+namespace Thinkneverland\Evolve\UI\Http\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EvolveCreateComponent extends Component
 {
@@ -20,7 +21,7 @@ class EvolveCreateComponent extends Component
     {
         return view('evolve-ui::livewire.create', [
             'modelClass' => $this->modelClass,
-        ]);
+        ])->extends($this->getLayoutView());
     }
 
     protected function initializeFields()
@@ -58,13 +59,10 @@ class EvolveCreateComponent extends Component
 
         try {
             $this->createModelWithRelations($this->modelClass, $validatedData['fields']);
-
             DB::commit();
 
             session()->flash('message', 'Record created successfully.');
-
             return redirect()->route(Str::plural(Str::kebab(class_basename($this->modelClass))) . '.index');
-
         } catch (\Exception $e) {
             DB::rollBack();
             $this->addError('error', 'Failed to create record: ' . $e->getMessage());
@@ -86,12 +84,15 @@ class EvolveCreateComponent extends Component
                 $relationData = $data[$relation];
                 $relationClass = get_class($model->$relation()->getRelated());
                 $relationModel = $this->createModelWithRelations($relationClass, $relationData);
-
-                // Associate the relation
                 $model->$relation()->save($relationModel);
             }
         }
 
         return $model;
+    }
+
+    protected function getLayoutView()
+    {
+        return config('evolve-ui.views.layout', 'layouts.app');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Evolve\UI\Http\Livewire;
+namespace Thinkneverland\Evolve\UI\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,15 +14,17 @@ class EvolveIndexComponent extends Component
     public $search = '';
     public $sortField = 'id';
     public $sortDirection = 'asc';
+    public $perPage;
 
     public $showDeleteConfirmation = false;
     public $deleteId;
 
-    protected $queryString = ['search', 'sortField', 'sortDirection'];
+    protected $queryString = ['search', 'sortField', 'sortDirection', 'perPage'];
 
     public function mount($modelClass)
     {
         $this->modelClass = $modelClass;
+        $this->perPage = config('evolve-ui.per_page', 10);
     }
 
     public function render()
@@ -41,12 +43,12 @@ class EvolveIndexComponent extends Component
             $query->orderBy($this->sortField, $this->sortDirection);
         }
 
-        $items = $query->paginate(10);
+        $items = $query->paginate($this->perPage);
 
         return view('evolve-ui::livewire.index', [
             'items' => $items,
             'modelClass' => $this->modelClass,
-        ]);
+        ])->extends($this->getLayoutView());
     }
 
     public function sortBy($field)
@@ -63,16 +65,11 @@ class EvolveIndexComponent extends Component
     {
         $model = new $this->modelClass;
         $columns = \Schema::getColumnListing($model->getTable());
-
-        // Exclude any fields specified in the model
-        $fields = array_diff($columns, $this->modelClass::excludedFields());
-
-        return $fields;
+        return array_diff($columns, $this->modelClass::excludedFields());
     }
 
     protected function getColumns()
     {
-        // You can customize the columns to display here
         return $this->getSearchableFields();
     }
 
@@ -91,5 +88,20 @@ class EvolveIndexComponent extends Component
         $this->deleteId = null;
 
         session()->flash('message', 'Record deleted successfully.');
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
+
+    protected function getLayoutView()
+    {
+        return config('evolve-ui.views.layout', 'layouts.app');
     }
 }

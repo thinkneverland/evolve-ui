@@ -1,9 +1,8 @@
 <?php
 
-namespace Evolve\UI\Http\Livewire;
+namespace Thinkneverland\Evolve\UI\Http\Livewire;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
 
 class EvolveShowComponent extends Component
 {
@@ -23,7 +22,7 @@ class EvolveShowComponent extends Component
         return view('evolve-ui::livewire.show', [
             'modelClass' => $this->modelClass,
             'modelInstance' => $this->modelInstance,
-        ]);
+        ])->extends($this->getLayoutView());
     }
 
     protected function loadModel()
@@ -34,5 +33,10 @@ class EvolveShowComponent extends Component
     protected function getRelations()
     {
         return array_diff(array_keys($this->modelClass::getAllRelations()), $this->modelClass::excludedRelations());
+    }
+
+    protected function getLayoutView()
+    {
+        return config('evolve-ui.views.layout', 'layouts.app');
     }
 }

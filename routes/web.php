@@ -1,9 +1,10 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use Evolve\Core\Contracts\EvolveModelInterface;
 use Illuminate\Support\Facades\File;
+use Thinkneverland\Evolve\Core\Contracts\EvolveModelInterface;
 
 $models = [];
 $modelPath = app_path('Models');
@@ -19,22 +20,25 @@ foreach (File::allFiles($modelPath) as $file) {
     }
 }
 
+$prefix = trim(config('evolve-ui.prefix'), '/');
+$routePrefix = $prefix ? $prefix . '/evolve' : 'evolve';
+
 foreach ($models as $modelClass) {
     $modelSlug = Str::plural(Str::kebab(class_basename($modelClass)));
 
-    Route::get("evolve/{$modelSlug}", \Evolve\UI\Http\Livewire\EvolveIndexComponent::class)
+    Route::get("{$modelSlug}", \Evolve\UI\Http\Livewire\EvolveIndexComponent::class)
         ->name("{$modelSlug}.index")
         ->defaults('modelClass', $modelClass);
 
-    Route::get("evolve/{$modelSlug}/create", \Evolve\UI\Http\Livewire\EvolveCreateComponent::class)
+    Route::get("{$modelSlug}/create", \Evolve\UI\Http\Livewire\EvolveCreateComponent::class)
         ->name("{$modelSlug}.create")
         ->defaults('modelClass', $modelClass);
 
-    Route::get("evolve/{$modelSlug}/{id}/edit", \Evolve\UI\Http\Livewire\EvolveEditComponent::class)
+    Route::get("{$modelSlug}/{id}/edit", \Evolve\UI\Http\Livewire\EvolveEditComponent::class)
         ->name("{$modelSlug}.edit")
         ->defaults('modelClass', $modelClass);
 
-    Route::get("evolve/{$modelSlug}/{id}", \Evolve\UI\Http\Livewire\EvolveShowComponent::class)
+    Route::get("{$modelSlug}/{id}", \Evolve\UI\Http\Livewire\EvolveShowComponent::class)
         ->name("{$modelSlug}.show")
         ->defaults('modelClass', $modelClass);
 }
