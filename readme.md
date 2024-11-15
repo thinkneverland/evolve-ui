@@ -1,3 +1,16 @@
+# EvolveUI: Free Extension for EvolveCore
+
+EvolveUI is a **free plugin** designed to enhance and complement the **EvolveCore** package. It provides a user-friendly interface and streamlined tools to make managing your models and data easier than ever.
+
+> **Note:** EvolveUI requires the **EvolveCore** package to function.  
+> [Get EvolveCore](https://evolve.thinkneverland.com) today and unlock the full potential of your Laravel applications.
+
+### Why Use EvolveUI?
+- Simplify CRUD operations with pre-built views and forms.
+- Integrate seamlessly with EvolveCore for validation, filtering, and sorting.
+- Customize your UI with published templates and configuration options.
+
+**Visit [evolve.thinkneverland.com](https://evolve.thinkneverland.com) to learn more and get started!**
 
 # EvolveUI Documentation
 
