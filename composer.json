@@ -2,7 +2,7 @@
     "name": "thinkneverland/evolve-ui",
     "description": "User interface for CRUD operations, utilizing Livewire and DaisyUI.",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "authors": [
         {
             "name": "Think Nneverland",
